@@ -9,12 +9,26 @@ function! IsPattern(search)
 endfunction
 
 function! IsBeforeOperator(search) 
-    let value = getline('.')
-    let valres = split(value, ' ')
-    if index(valres, a:search) == len(valres)-2
+    let l:value = getline('.')
+    let l:valres = split(l:value)
+    if index(l:valres, a:search) == len(l:valres)-2
         return 0
     else
         return 1
+    endif
+endfunction 
+
+function! SaveKeywordSet()
+    if getline(".") !~ "" 
+        let l:value = getline(".")
+        let l:valres = split(l:value) 
+        if get(len(l:valres)-1) =~ "="
+            for m in g:keywords 
+                if m =~ get(len(l:valres)-1)  
+                    return m
+                endif
+            endfor
+        endif
     endif
 endfunction 
 
@@ -40,12 +54,57 @@ fun! TypoComplete(findstart, base)
                                 call add(res, m)
                             endif
                         endfor
+                    elseif IsPattern("stdWrap") == 0
+                        for m in g:stdWrap 
+                            if m =~ '^' . a:base 
+                                call add(res, m)
+                            endif
+                        endfor
+                    elseif IsPattern("if") == 0
+                        for m in g:if 
+                            if m =~ '^' . a:base 
+                                call add(res, m)
+                            endif
+                        endfor
                     else
                         call add(res, m)
                     endif
                 endif
             endfor
             return res
+        elseif IsBeforeOperator("=") 
+            let l:val = getline(".") 
+            let l:values = split(l:val) 
+            if get(l:values, len(l:values)-2) =~ "case"
+                for m in g:case 
+                    if m =~ '^' . a:base
+                        call add(res, m) 
+                    endif
+                endfor
+                return res
+            elseif get(l:values, len(l:values)-2) =~ "enable" 
+                for m in g:enable 
+                    if m =~ '^' . a:base
+                        call add(res, m) 
+                    endif
+                endfor
+                return res
+            elseif get(l:values, len(l:values)-2) =~ "field" 
+                for m in g:field 
+                    if m =~ '^' . a:base
+                        call add(res, m) 
+                    endif
+                endfor
+                return res
+
+            else
+                for m in g:keywords 
+                    if m =~ '^' . a:base
+                        call add(res, m)
+                    endif
+                endfor
+                return res
+            endif
         else
             for m in g:keywords 
                 if m =~ '^' . a:base
@@ -57,6 +116,8 @@ fun! TypoComplete(findstart, base)
         endif
     endif
 endfun
+
+let g:usedKeywords = []
 
 
 let g:keywords =    [ 
@@ -91,7 +152,16 @@ let g:paras =   [
                 \'file',
                 \'stylesheet',
                 \'config',
+                \'stdWrap',
                 \] 
+
+let g:CASE = [
+            \'if',
+            \'setCurrent',
+            \'key',
+            \'default',
+            \'stdWrap',
+            \']
 
 let g:File = [
             \'file',
@@ -127,6 +197,21 @@ let g:Text = [
             \'value',
             \'stdWrap',
             \]
+
+let g:if = [
+        \'directReturn',
+        \'isNull',
+        \'isTrue',
+        \'isFalse',
+        \'isPositive',
+        \'isGreaterThan',
+        \'isLessThan',
+        \'equals',
+        \'isInList',
+        \'value',
+        \'negate',
+        \]
+
 
 let g:stdWrap = [
             \'setContentToCurrent',
@@ -209,6 +294,11 @@ let g:stdWrap = [
             \'debugFunc',
             \'debugData',
             \]
+
+let g:enable = ['0', '1']
+
+let g:field = [
+            \'header',]
 
 let g:case = [
             \'upper',
