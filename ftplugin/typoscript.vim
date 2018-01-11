@@ -1,13 +1,22 @@
 function! IsPattern(search)
     let value = getline('.')
     let valres = split(value, '\.')
-    echo valres
     if index(valres, a:search) == len(valres)-1
         return 0 
     else
         return 1
     endif
 endfunction
+
+function! IsBeforeOperator(search) 
+    let value = getline('.')
+    let valres = split(value, ' ')
+    if index(valres, a:search) == len(valres)-2
+        return 0
+    else
+        return 1
+    endif
+endfunction 
 
 fun! TypoComplete(findstart, base)
     if a:findstart
@@ -25,8 +34,8 @@ fun! TypoComplete(findstart, base)
         if getline(".")[col(".")-2] == "."
             for m in g:paras
                 if m =~ '^' . a:base 
-                    if IsPattern("value") == 0
-                        for m in g:value
+                    if IsPattern("config") == 0
+                        for m in g:config
                             if m =~ '^' . a:base 
                                 call add(res, m)
                             endif
@@ -51,10 +60,27 @@ endfun
 
 
 let g:keywords =    [ 
+                    \'CASE',
+                    \'COA',
+                    \'COA_INT',
+                    \'CONTENT',
+                    \'EDITPANEL',
                     \'FILE',
+                    \'FILES',
+                    \'FLUIDTEMPLATE',
+                    \'FORM',
+                    \'HMENU',
+                    \'HTML',
+                    \'IMAGE',
+                    \'IMG_RESOURCE'
                     \'PAGE', 
-                    \'TEXT',
+                    \'RECORDS',
+                    \'RESTORE_REGISTER',
+                    \'SVG',
                     \'TEMPLATE',
+                    \'TEXT',
+                    \'USER',
+                    \'USER_INT',
                     \]
 
 let g:paras =   [
@@ -67,7 +93,132 @@ let g:paras =   [
                 \'config',
                 \] 
 
-let g:value = [ 'bla' ] 
+let g:File = [
+            \'file',
+            \'linkWrap',
+            \'wrap',
+            \'stdWrap',
+            \'altText',
+            \'titleText',
+            \'emptyTitleHanlding',
+            \'useAlt',
+            \'longdescURL',
+            \]
+
+let g:Files = [
+            \'files',
+            \'references',
+            \'collections',
+            \'folders',
+            \'sorting',
+            \'begin',
+            \'maxitems',
+            \'renderObj',
+            \'stdWrap',
+            \]
+
+let g:FilesReferences = [
+            \'table',
+            \'uid',
+            \'fieldName',
+            \]
+
+let g:Text = [
+            \'value',
+            \'stdWrap',
+            \]
+
+let g:stdWrap = [
+            \'setContentToCurrent',
+            \'addPageCacheTags',
+            \'setCurrent',
+            \'lang',
+            \'data',
+            \'field',
+            \'current',
+            \'cObject',
+            \'numRows',
+            \'preUserFunc',
+            \'override',
+            \'preIfEmptyListNum',
+            \'ifNull',
+            \'ifEmpty',
+            \'ifBlank',
+            \'listNum',
+            \'trim',
+            \'strPad',
+            \'stdWrap',
+            \'required',
+            \'if',
+            \'fieldRequierd',
+            \'csConv',
+            \'parseFunc',
+            \'HTMLparser',
+            \'split',
+            \'replacement',
+            \'prioriCalc',
+            \'char',
+            \'intval',
+            \'hash',
+            \'round',
+            \'round',
+            \'numberFormat',
+            \'date',
+            \'strftime',
+            \'strttime',
+            \'age',
+            \'case',
+            \'bytes',
+            \'substring',
+            \'cropHTML',
+            \'stripHtml',
+            \'crop',
+            \'rawUrlEncode',
+            \'htmlSpecialChars',
+            \'encodeForJavaScriptValue',
+            \'doubleBrTag',
+            \'br',
+            \'brTag',
+            \'encapsLines',
+            \'keywords',
+            \'innerWrap',
+            \'innerWrap2',
+            \'addParams',
+            \'filelink',
+            \'preCObject',
+            \'postCObject',
+            \'wrapAlign',
+            \'typolink',
+            \'wrap',
+            \'noTrimWrap',
+            \'wrap2',
+            \'dataWrap',
+            \'prepend',
+            \'append',
+            \'wrap3',
+            \'orderedStdWrap',
+            \'outerWrap',
+            \'insertData',
+            \'postUserFunc',
+            \'postUserFuncInt',
+            \'prefixComment',
+            \'editIcons',
+            \'editPanel',
+            \'cache',
+            \'debug',
+            \'debugFunc',
+            \'debugData',
+            \]
+
+let g:case = [
+            \'upper',
+            \'lower',
+            \'capitalize',
+            \'ucfirst',
+            \'lcfirst',
+            \'uppercamelcase',
+            \'lowercamelcase',
+            \]
 
 let g:config =  [
                 \'absRefPrefix',
@@ -107,6 +258,55 @@ let g:config =  [
                 \'htmlTag_dir',
                 \'htmlTag_langKey',
                 \'htmlTag_setParams',
+                \'htmlTag_stdWrap',
+                \'index_descrLgd',
+                \'index_enable',
+                \'index_externals',
+                \'index_metatags',
+                \'inlineStyle2TempFile',
+                \'intTarget',
+                \'language',
+                \'language_alt',
+                \'linkVars',
+                \'locale_all',
+                \'message_page_is_being_generated',
+                \'message_preview',
+                \'message_preview_workspace',
+                \'metaCharset',
+                \'moveJsFormHeaderToFooter',
+                \'MP_defaults',
+                \'MP_disableTypolinkClosestMPvalue',
+                \'MP_mapRootPoints',
+                \'namespaces',
+                \'no_cache',
+                \'noPageTitle',
+                \'pageTitleFirst',
+                \'pageTitleSeparator',
+                \'removeDefaultCss',
+                \'removeDefaultJs',
+                \'removePageCss',
+                \'sendCacheHeaders',
+                \'sendCacheHeaders_onlyWhenLoginDeniedInBranch',
+                \'spamProtectEmailAdresses',
+                \'spamProtectEmailAdresses_atSubst',
+                \'spamProtectEmailAdresses_lastDostSubst',
+                \'sword_noMixedCase',
+                \'sword_standAlone',
+                \'sys_language_isocode',
+                \'sys_language_isocode_default',
+                \'sys_language_mode',
+                \'sys_language_overlay',
+                \'`sys\_language\_softMergeIfNotBlank`_',
+                \'sys_language_uid',
+                \'titleTagFunction',
+                \'tx_[extension key with no underscores]_[*]',
+                \'typolinkCheckRootline',
+                \'typolinkEnableLinksAcrossDomains',
+                \'typolinkLinkAccessRestrictedPages',
+                \'typolinkLinkAccessRestrictedPages_addParams',
+                \'USERNAME_substToken',
+                \'xhtmlDoctype',
+                \'xmlprologue',
                 \]
 
 let g:all = [] 
