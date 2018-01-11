@@ -43,14 +43,18 @@ fun! TypoComplete(findstart, base)
                     call add(res, m)
                 endif
             endfor
+            
             return res
         endif
     endif
 endfun
 
+
 let g:keywords =    [ 
+                    \'FILE',
                     \'PAGE', 
                     \'TEXT',
+                    \'TEMPLATE',
                     \]
 
 let g:paras =   [
@@ -59,9 +63,51 @@ let g:paras =   [
                 \'enable',
                 \'typeNum',
                 \'file',
+                \'stylesheet',
+                \'config',
                 \] 
 
 let g:value = [ 'bla' ] 
+
+let g:config =  [
+                \'absRefPrefix',
+                \'additionalHeaders',
+                \'admPanel'
+                \'ATagParams',
+                \'baseURL',
+                \'cache',
+                \'cache_clearAtMidnight',
+                \'cache_period',
+                \'compressCss',
+                \'compressJs',
+                \'concatenateCss',
+                \'concatenateJs',
+                \'concatenateJsAndCss',
+                \'content_from_pid_allowOutsideDomain',
+                \'contentObjectExceptionHandler',
+                \'debug',
+                \'defaultGetVars',
+                \'disableAllHeaderCode',
+                \'disableBodyTag',
+                \'disableCharsetHeader',
+                \'disablelmgBorderAttr',
+                \'disablePageExternalUrl',
+                \'disablePrefixComment',
+                \'disablePreviewNotification',
+                \'disableLanguageHeader',
+                \'doctype',
+                \'doctypeSwitch',
+                \'enableContentLengthHeader',
+                \'extTarget',
+                \'fileTarget',
+                \'forceTypeValue',
+                \'formMailCharset',
+                \'ftu',
+                \'headerComment',
+                \'htmlTag_dir',
+                \'htmlTag_langKey',
+                \'htmlTag_setParams',
+                \]
 
 let g:all = [] 
 for m in g:keywords 
@@ -71,5 +117,6 @@ for m in g:paras
     call add(g:all, m)
 endfor
 
+set completeopt+=longest 
 set completefunc=TypoComplete 
 set omnifunc=TypoComplete 
