@@ -1,3 +1,5 @@
+"MIT License Copyright (c) 2018 Philip Mayer
+
 let g:dict = {}
 let l:val = getline(".") 
 let l:values = split(l:val) 

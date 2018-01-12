@@ -1,3 +1,5 @@
+"MIT License Copyright (c) 2018 Philip Mayer
+
 function! IsPattern(search)
     let value = getline('.')
     let valres = split(value, '\.')
